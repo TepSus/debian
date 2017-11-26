@@ -6,48 +6,25 @@
 # เมื่อ: 22 สิงหาคม 2560
 # สำหรับ: debian 7,8,9 x64
 # ******************************************
-myip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | head -n1`;
-myint=`ifconfig | grep -B1 "inet addr:$myip" | head -n1 | awk '{print $1}'`;
 
-if [ $USER != 'root' ]; then
-    echo "Sorry, for run the script please using root user"
-    exit
-fi
-if [[ ! -e /dev/net/tun ]]; then
-    echo "TUN/TAP is not available"
-    exit
-fi
-echo "
-AUTOSCRIPT Auiyhyo VPN SERVICE [กากๆ]
+# initialisasi var
+export DEBIAN_FRONTEND=noninteractive
+OS=`uname -m`;
+MYIP=$(wget -qO- ipv4.icanhazip.com);
+MYIP2="s/xxxxxxxxx/$MYIP/g";
+echo "sudo su" >> .bashrc
 
-PLEASE CANCEL ALL PACKAGE POPUP
+# go to root
+cd
 
-TAKE NOTE !!!"
-clear
-echo "START AUTOSCRIPT"
-clear
-echo "SET TIMEZONE BANGKOK  GMT +7"
-ln -fs /usr/share/zoneinfo/Asia/Bangkok /etc/localtime;
-clear
-echo "
-ENABLE IPV4 AND IPV6
+# disable ipv6
+echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
+sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
 
-COMPLETE 1%
-"
-echo ipv4 >> /etc/modules
-echo ipv6 >> /etc/modules
-sysctl -w net.ipv4.ip_forward=1
-sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
-sed -i 's/#net.ipv6.conf.all.forwarding=1/net.ipv6.conf.all.forwarding=1/g' /etc/sysctl.conf
-sysctl -p
-clear
+# install wget and curl
+apt-get update;apt-get -y install wget curl;
 
-if [ "`lsb_release -is`" == "Ubuntu" ] || [ "`lsb_release -is`" == "Debian" ]
-then
-echo "
-REMOVE SPAM PACKAGE
 
-COMPLETE 10%
 "
 apt-get -y --purge remove samba*;
 apt-get -y --purge remove apache2*;
