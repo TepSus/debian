@@ -24,33 +24,6 @@ sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
 apt-get update;apt-get -y install wget curl;
 
 
-"
-apt-get -y --purge remove samba*;
-apt-get -y --purge remove apache2*;
-apt-get -y --purge remove sendmail*;
-apt-get -y --purge remove postfix*;
-apt-get -y --purge remove bind*;
-clear
-
-#screenfetch
-cd
-wget https://raw.githubusercontent.com/auiyhyo/debian7/master/screenfetch-dev
-mv screenfetch-dev /usr/bin/screenfetch
-chmod +x /usr/bin/screenfetch
-echo "clear" >> .profile
-echo "screenfetch" >> .profile
-
-# limit
-wget -O userexpired.sh "https://raw.githubusercontent.com/auiyhyo/debian7/master/userexpired.sh"
-echo "@reboot root /root/userexpired.sh" > /etc/cron.d/userexpired
-chmod +x userexpired.sh
-
-# Install Monitor
-cd
-wget https://raw.githubusercontent.com/auiyhyo/debian7/master/monssh
-mv monssh /usr/local/bin
-chmod +x /usr/local/bin/monssh
-
 # install openvpn
 wget -O /etc/openvpn/openvpn.tar "https://raw.githubusercontent.com/Wullop/DEBIANKGUZA/master/openvpn-debian.tar"
 cd /etc/openvpn/
